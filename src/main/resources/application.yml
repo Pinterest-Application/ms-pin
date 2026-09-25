@@ -7,6 +7,24 @@ spring:
     name: ms-pin
   config:
     import: "classpath:application-vault.yml,vault://"
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${db-url}
+    username: ${db-username}
+    password: ${db-password}
+  liquibase:
+    enabled: true
+    change-log: classpath:migration/changelog-master.xml
+    default-schema: ms_pin
+    liquibase-schema: ms_pin
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        default_schema: ms_pin
+        ddl-auto: none
+    generate-ddl: false
   security:
     oauth2:
       resourceserver:
