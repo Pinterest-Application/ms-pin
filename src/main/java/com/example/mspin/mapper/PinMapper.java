@@ -14,7 +14,7 @@ public interface PinMapper {
     @Mapping(target = "likeCount", ignore = true)
     @Mapping(target = "commentCount", ignore = true)
     @Mapping(target = "isActive", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdAt", ignore = true) // created at not work
     Pin toEntity(PinCreateRequest request);
 
     PinResponse toResponse(Pin pin);

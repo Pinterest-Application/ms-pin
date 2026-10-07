@@ -15,7 +15,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/pins")
 @RequiredArgsConstructor
 public class PinController {
 
@@ -39,4 +38,6 @@ public class PinController {
         pinService.likePin(id, UUID.fromString(Objects.requireNonNull(jwt.getSubject())));
         return ResponseEntity.noContent().build();
     }
+
+    // todo: delete pin endpoint
 }

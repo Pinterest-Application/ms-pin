@@ -50,6 +50,7 @@ public class PinService {
         }
 
         if (pinLikeRepository.existsByPinIdAndUserId(pinId, userId)) {
+            // todo like geri cek
             throw new ConflictException("Pin already liked by user: " + userId);
         }
 
