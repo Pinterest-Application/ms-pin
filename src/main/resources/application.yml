@@ -53,6 +53,10 @@ eureka:
     service-url:
       defaultZone: ${eureka-server}
 
+media:
+  url:
+    base: ${seaweedfs-media-url}
+
 management:
   endpoints:
     web:

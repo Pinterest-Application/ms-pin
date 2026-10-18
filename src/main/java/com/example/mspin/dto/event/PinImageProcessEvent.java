@@ -13,8 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PinImageProcessEvent {
     private UUID pinId;
-    private String objectKey;
-    private String bucketName;
+    private String mediaUrl;
     private Integer mediaWidth;
     private Integer mediaHeight;
 }

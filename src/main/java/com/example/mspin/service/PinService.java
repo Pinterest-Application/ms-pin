@@ -14,6 +14,7 @@ import com.example.mspin.mapper.PinMapper;
 import com.example.mspin.producer.KafkaProducerService;
 import com.example.mspin.repository.PinLikeRepository;
 import com.example.mspin.repository.PinRepository;
+import com.example.mspin.util.MediaUrlUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
@@ -32,6 +33,7 @@ public class PinService {
     private final PinMapper pinMapper;
     private final MsMediaClient msMediaClient;
     private final KafkaProducerService kafkaProducerService;
+    private final MediaUrlUtil mediaUrlUtil;
 
     @Value("${spring.kafka.topics.pin-image-process}")
     private String pinProcessTopic;
@@ -47,8 +49,10 @@ public class PinService {
 
         PinImageProcessEvent event = PinImageProcessEvent.builder()
                 .pinId(savedPin.getId())
-                .objectKey(mediaResponse.getObjectKey())
-                .bucketName(mediaResponse.getBucketType().getBucketName())
+                .mediaUrl(mediaUrlUtil.generateUrl(
+                        mediaResponse.getBucketType().getBucketName(),
+                        mediaResponse.getObjectKey()
+                ))
                 .mediaWidth(mediaResponse.getWidth())
                 .mediaHeight(mediaResponse.getHeight())
                 .build(); // build event model
