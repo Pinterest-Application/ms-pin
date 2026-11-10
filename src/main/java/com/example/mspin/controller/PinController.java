@@ -5,6 +5,10 @@ import com.example.mspin.dto.PinResponse;
 import com.example.mspin.service.PinService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,6 +29,21 @@ public class PinController {
                                               @AuthenticationPrincipal Jwt jwt) {
         PinResponse response = pinService.create(request, UUID.fromString(Objects.requireNonNull(jwt.getSubject())));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<PinResponse>> getMyPins(
+            @AuthenticationPrincipal Jwt jwt,
+            @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(pinService.getUserPins(
+                UUID.fromString(Objects.requireNonNull(jwt.getSubject())), pageable));
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<Page<PinResponse>> getUserPins(
+            @PathVariable UUID userId,
+            @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(pinService.getUserPins(userId, pageable));
     }
 
     @GetMapping("/{id}")

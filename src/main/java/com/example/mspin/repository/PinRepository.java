@@ -1,6 +1,8 @@
 package com.example.mspin.repository;
 
 import com.example.mspin.entity.Pin;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +16,8 @@ import java.util.UUID;
 public interface PinRepository extends JpaRepository<Pin, UUID> {
 
     Optional<Pin> findByIdAndIsActiveTrue(UUID id);
+
+    Page<Pin> findByUserIdAndIsActiveTrue(UUID userId, Pageable pageable);
 
     boolean existsByIdAndIsActiveTrue(UUID id);
 

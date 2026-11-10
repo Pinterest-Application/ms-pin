@@ -19,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +71,14 @@ public class PinService {
                 .orElseThrow(() -> new NotFoundException("Pin not found with id: " + id));
         return pinMapper.toResponse(pin);
     }
+
+    @Transactional(readOnly = true)
+    public Page<PinResponse> getUserPins(UUID userId, Pageable pageable) {
+        return pinRepository.findByUserIdAndIsActiveTrue(userId, pageable)
+                .map(pinMapper::toResponse);
+    }
+    // todo: not userid, change username
+
 
     @Transactional
     @CacheEvict(value = CacheConfig.PIN_CACHE, key = "#pinId")
