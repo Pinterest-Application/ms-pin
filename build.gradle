@@ -23,7 +23,7 @@ ext {
 }
 
 dependencies {
-    implementation 'com.example:lib-exception:0.0.4'
+    implementation 'com.example:lib-exception:0.0.6'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-security'
